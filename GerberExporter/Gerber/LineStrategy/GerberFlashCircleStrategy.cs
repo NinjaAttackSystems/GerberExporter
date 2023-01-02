@@ -1,6 +1,6 @@
 ﻿using GerberExporter.GerberModels;
 
-namespace GerberExporter.GerberLineStrategy;
+namespace GerberExporter.Gerber.GerberLineStrategy;
 
 public class GerberFlashCircleStrategy : IGerberLineStrategy
 {

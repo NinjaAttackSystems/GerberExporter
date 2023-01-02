@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GerberExporter.BrokerModels;
-using GerberExporter.CommonModels;
 using GerberExporter.GerberModels;
 
-namespace GerberExporter.GerberLineStrategy
+namespace GerberExporter.Gerber.GerberLineStrategy
 {
     public class GerberLineStrategyContext
     {

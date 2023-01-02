@@ -1,6 +1,6 @@
 ﻿using GerberExporter.GerberModels;
 
-namespace GerberExporter;
+namespace GerberExporter.Gerber;
 
 public class ExporterState
 {

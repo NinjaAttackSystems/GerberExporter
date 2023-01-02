@@ -24,6 +24,9 @@
     <None Update="Gerber_TopSolderMaskLayer.GTS">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="mobo.GTS">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

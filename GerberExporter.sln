@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerberExporterTests", "GerberExporterTests\GerberExporterTests.csproj", "{C09A26CA-95D6-47B2-8B40-D8E3D617D77A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerberExporterTests", "GerberExporterTests\GerberExporterTests.csproj", "{C09A26CA-95D6-47B2-8B40-D8E3D617D77A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerberExporter", "GerberExporter\GerberExporter.csproj", "{BA22D5CF-113D-4FF9-9433-85B2F93F2549}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerberExporter", "GerberExporter\GerberExporter.csproj", "{BA22D5CF-113D-4FF9-9433-85B2F93F2549}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

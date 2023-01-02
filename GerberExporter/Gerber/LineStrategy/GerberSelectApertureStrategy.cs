@@ -1,4 +1,4 @@
-﻿namespace GerberExporter.GerberLineStrategy;
+﻿namespace GerberExporter.Gerber.GerberLineStrategy;
 
 public class GerberSelectApertureStrategy : IGerberLineStrategy
 {

@@ -1,6 +1,4 @@
-﻿using GerberExporter.GerberModels;
-
-namespace GerberExporter.BrokerModels;
+﻿namespace GerberExporter.Common.Models;
 
 public class BrokerDocument
 {

@@ -1,6 +1,6 @@
 ﻿using GerberExporter.GerberModels;
 
-namespace GerberExporter.GerberLineStrategy;
+namespace GerberExporter.Gerber.GerberLineStrategy;
 
 public class GerberApertureCircleStrategy : IGerberLineStrategy
 {
@@ -31,10 +31,10 @@ public class GerberApertureCircleStrategy : IGerberLineStrategy
             throw new Exception($"Unable to parse diameter of {line}");
         }
 
-        var result =  new CircleAperture(){Diameter = diameter, Index = index};
-        
+        var result = new CircleAperture() { Diameter = diameter, Index = index };
+
         state.Apertures.Add(result);
-        
+
         return null;
     }
 

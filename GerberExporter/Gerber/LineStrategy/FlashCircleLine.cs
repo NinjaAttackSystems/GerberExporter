@@ -1,7 +1,7 @@
-﻿using GerberExporter.CommonModels;
+﻿using GerberExporter.Common;
 using GerberExporter.GerberModels;
 
-namespace GerberExporter.GerberLineStrategy;
+namespace GerberExporter.Gerber.GerberLineStrategy;
 
 public class FlashCircleLine : IGerberParsedLine
 {
@@ -10,7 +10,7 @@ public class FlashCircleLine : IGerberParsedLine
     public FlashCircleLine(double x, double y, CircleAperture aperture)
     {
         Type = GerberParsedLineType.FlashCircle;
-        Center = new Vertex( x,  y, 0 );
+        Center = new Vertex(x, y, 0);
         Diameter = aperture.Diameter;
     }
 

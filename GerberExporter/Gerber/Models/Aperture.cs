@@ -1,4 +1,4 @@
-﻿using GerberExporter.GerberLineStrategy;
+﻿using GerberExporter.Gerber.GerberLineStrategy;
 
 namespace GerberExporter.GerberModels;
 

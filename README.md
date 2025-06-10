@@ -31,7 +31,9 @@ The exporter now supports multiple shape types and is actively being developed. 
 - Upgraded to .NET 9
 
 Below is a sample of the exported STL
-<img width="768" alt="image" src="https://user-images.githubusercontent.com/33508/210236467-b6ded390-4efc-48c0-9ca6-93374f76c5e8.png">
+![model](https://github.com/user-attachments/assets/8717169a-68f0-4766-8c63-aaa6b7a07b6c)
+
+
 
 ## Building and Running
 

@@ -1,0 +1,99 @@
+using GerberExporter.Gerber;
+using GerberExporter.STL;
+using GerberExporter.SVG;
+
+// Create the exporter
+var gerberExporter = new GerberExporter.Gerber.GerberExporter();
+
+// Find the mobo.GTS file in the test directory
+var testFilePath = Path.Combine("..", "GerberExporterTests", "mobo.GTS");
+if (!File.Exists(testFilePath))
+{
+    Console.WriteLine($"Error: Could not find {testFilePath}");
+    return;
+}
+
+Console.WriteLine($"Processing {testFilePath}...");
+
+// Export the Gerber file to a document model
+var document = await gerberExporter.Export(testFilePath);
+
+Console.WriteLine($"Found {document.Shapes.Count} shapes in the Gerber file");
+
+// Count shape types
+var circleCount = document.Shapes.Count(s => s is GerberExporter.Common.Models.Circle);
+var rectangleCount = document.Shapes.Count(s => s is GerberExporter.Common.Models.Rectangle);
+Console.WriteLine($"Shape breakdown: {circleCount} circles, {rectangleCount} rectangles");
+
+// Analyze the coordinates
+var minX = document.Shapes.Min(s => s.Center.X);
+var maxX = document.Shapes.Max(s => s.Center.X);
+var minY = document.Shapes.Min(s => s.Center.Y);
+var maxY = document.Shapes.Max(s => s.Center.Y);
+
+Console.WriteLine($"\nCoordinate bounds:");
+Console.WriteLine($"X: {minX:F2} to {maxX:F2} (range: {maxX - minX:F2} mm)");
+Console.WriteLine($"Y: {minY:F2} to {maxY:F2} (range: {maxY - minY:F2} mm)");
+
+// Show first few shapes
+Console.WriteLine($"\nFirst 5 shapes:");
+foreach (var shape in document.Shapes.Take(5))
+{
+    if (shape is GerberExporter.Common.Models.Rectangle rect)
+    {
+        Console.WriteLine($"Rectangle at ({rect.Center.X:F2}, {rect.Center.Y:F2}), size: {rect.Width:F2} x {rect.Height:F2} mm");
+    }
+    else if (shape is GerberExporter.Common.Models.Circle circle)
+    {
+        Console.WriteLine($"Circle at ({circle.Center.X:F2}, {circle.Center.Y:F2}), diameter: {circle.Diameter:F2} mm");
+    }
+}
+
+// Calculate actual shape bounds (including their sizes)
+double actualMinX = double.MaxValue, actualMaxX = double.MinValue;
+double actualMinY = double.MaxValue, actualMaxY = double.MinValue;
+
+foreach (var shape in document.Shapes)
+{
+    if (shape is GerberExporter.Common.Models.Rectangle rect)
+    {
+        actualMinX = Math.Min(actualMinX, rect.Center.X - rect.Width / 2);
+        actualMaxX = Math.Max(actualMaxX, rect.Center.X + rect.Width / 2);
+        actualMinY = Math.Min(actualMinY, rect.Center.Y - rect.Height / 2);
+        actualMaxY = Math.Max(actualMaxY, rect.Center.Y + rect.Height / 2);
+    }
+    else if (shape is GerberExporter.Common.Models.Circle circle)
+    {
+        actualMinX = Math.Min(actualMinX, circle.Center.X - circle.Radius);
+        actualMaxX = Math.Max(actualMaxX, circle.Center.X + circle.Radius);
+        actualMinY = Math.Min(actualMinY, circle.Center.Y - circle.Radius);
+        actualMaxY = Math.Max(actualMaxY, circle.Center.Y + circle.Radius);
+    }
+}
+
+Console.WriteLine($"\nActual shape bounds (including sizes):");
+Console.WriteLine($"X: {actualMinX:F2} to {actualMaxX:F2} (width: {actualMaxX - actualMinX:F2} mm)");
+Console.WriteLine($"Y: {actualMinY:F2} to {actualMaxY:F2} (height: {actualMaxY - actualMinY:F2} mm)");
+Console.WriteLine($"\nSTL will be transformed to fit in approximately {actualMaxX - actualMinX:F2} x {actualMaxY - actualMinY:F2} mm");
+
+// Generate STL
+var stlGenerator = new StlGenerator();
+var stlOutputPath = Path.GetFullPath("mobo_output.stl");
+stlGenerator.Create(stlOutputPath, document);
+
+Console.WriteLine($"STL file created: {stlOutputPath}");
+
+// Generate a compact STL with all shapes arranged in a grid
+var compactStlGenerator = new StlGeneratorCompact();
+var compactStlPath = Path.GetFullPath("mobo_output_compact.stl");
+compactStlGenerator.Create(compactStlPath, document);
+Console.WriteLine($"Compact STL file created: {compactStlPath}");
+Console.WriteLine("The compact STL arranges all shapes in a 100mm x N mm grid for easier viewing");
+
+// Also generate SVG for comparison
+var svgGenerator = new SvgGenerator();
+var svgOutputPath = Path.GetFullPath("mobo_output.svg");
+svgGenerator.Create(svgOutputPath, document);
+
+Console.WriteLine($"SVG file created: {svgOutputPath}");
+Console.WriteLine("Export complete!");

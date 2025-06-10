@@ -1,0 +1,52 @@
+using GerberExporter.Gerber;
+using GerberExporter.STL;
+using GerberExporter.SVG;
+
+// Create the exporter
+var gerberExporter = new GerberExporter.Gerber.GerberExporter();
+
+// Find the mobo.GTS file in the test directory
+var testFilePath = Path.Combine("..", "GerberExporterTests", "mobo.GTS");
+if (!File.Exists(testFilePath))
+{
+    Console.WriteLine($"Error: Could not find {testFilePath}");
+    return;
+}
+
+Console.WriteLine($"Processing {testFilePath}...");
+
+// Export the Gerber file to a document model
+var document = await gerberExporter.Export(testFilePath);
+
+Console.WriteLine($"Found {document.Shapes.Count} shapes in the Gerber file");
+
+// Count shape types
+var circleCount = document.Shapes.Count(s => s is GerberExporter.Common.Models.Circle);
+var rectangleCount = document.Shapes.Count(s => s is GerberExporter.Common.Models.Rectangle);
+var roundedRectCount = document.Shapes.Count(s => s is GerberExporter.Common.Models.RoundedRectangle);
+Console.WriteLine($"Shape breakdown: {circleCount} circles, {rectangleCount} rectangles, {roundedRectCount} rounded rectangles");
+
+// Analyze the coordinates
+var minX = document.Shapes.Min(s => s.Center.X);
+var maxX = document.Shapes.Max(s => s.Center.X);
+var minY = document.Shapes.Min(s => s.Center.Y);
+var maxY = document.Shapes.Max(s => s.Center.Y);
+
+Console.WriteLine($"\nCoordinate bounds:");
+Console.WriteLine($"X: {minX:F2} to {maxX:F2} (range: {maxX - minX:F2} mm)");
+Console.WriteLine($"Y: {minY:F2} to {maxY:F2} (range: {maxY - minY:F2} mm)");
+
+// Generate STL
+var stlGenerator = new StlGenerator();
+var stlOutputPath = Path.GetFullPath("mobo_output.stl");
+stlGenerator.Create(stlOutputPath, document);
+
+Console.WriteLine($"\nSTL file created: {stlOutputPath}");
+
+// Also generate SVG for comparison
+var svgGenerator = new SvgGenerator();
+var svgOutputPath = Path.GetFullPath("mobo_output.svg");
+svgGenerator.Create(svgOutputPath, document);
+
+Console.WriteLine($"SVG file created: {svgOutputPath}");
+Console.WriteLine("Export complete!");

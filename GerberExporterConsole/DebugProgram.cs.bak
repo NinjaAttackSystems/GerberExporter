@@ -1,0 +1,44 @@
+using GerberExporter.Gerber;
+using GerberExporter.Common.Models;
+
+// Create the exporter
+var gerberExporter = new GerberExporter.Gerber.GerberExporter();
+
+// Find the mobo.GTS file
+var testFilePath = Path.Combine("..", "GerberExporterTests", "mobo.GTS");
+if (!File.Exists(testFilePath))
+{
+    Console.WriteLine($"Error: Could not find {testFilePath}");
+    return;
+}
+
+Console.WriteLine($"Processing {testFilePath}...");
+
+// Export the Gerber file to a document model
+var document = await gerberExporter.Export(testFilePath);
+
+Console.WriteLine($"Found {document.Shapes.Count} shapes in the Gerber file");
+
+// Analyze the coordinates
+var minX = document.Shapes.Min(s => s.Center.X);
+var maxX = document.Shapes.Max(s => s.Center.X);
+var minY = document.Shapes.Min(s => s.Center.Y);
+var maxY = document.Shapes.Max(s => s.Center.Y);
+
+Console.WriteLine($"\nCoordinate bounds:");
+Console.WriteLine($"X: {minX:F2} to {maxX:F2} (range: {maxX - minX:F2})");
+Console.WriteLine($"Y: {minY:F2} to {maxY:F2} (range: {maxY - minY:F2})");
+
+// Show first few shapes
+Console.WriteLine($"\nFirst 5 shapes:");
+foreach (var shape in document.Shapes.Take(5))
+{
+    if (shape is Rectangle rect)
+    {
+        Console.WriteLine($"Rectangle at ({rect.Center.X:F2}, {rect.Center.Y:F2}), size: {rect.Width:F2} x {rect.Height:F2}");
+    }
+    else if (shape is Circle circle)
+    {
+        Console.WriteLine($"Circle at ({circle.Center.X:F2}, {circle.Center.Y:F2}), diameter: {circle.Diameter:F2}");
+    }
+}

@@ -41,6 +41,17 @@ namespace GerberExporter.Gerber
             {
                 BrokerDocument.Shapes.Add(new Circle(line as FlashCircleLine));
             }
+            else if (line.Type == GerberParsedLineType.FlashRectangle)
+            {
+                if (line is FlashRoundedRectangleLine roundedRectLine)
+                {
+                    BrokerDocument.Shapes.Add(new RoundedRectangle(roundedRectLine));
+                }
+                else
+                {
+                    BrokerDocument.Shapes.Add(new Rectangle(line as FlashRectangleLine));
+                }
+            }
 
         }
     }

@@ -8,6 +8,7 @@ public enum GerberParsedLineType
 
     DrawRectangle = 100,
     FlashCircle = 105,
+    FlashRectangle = 106,
     DrawPolygon = 110,
     DrawOval = 115,
 

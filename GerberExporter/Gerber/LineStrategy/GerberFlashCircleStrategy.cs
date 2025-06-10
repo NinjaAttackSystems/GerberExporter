@@ -6,10 +6,7 @@ public class GerberFlashCircleStrategy : IGerberLineStrategy
 {
     public bool CanHandleLine(string line)
     {
-        if (!line.Contains("D03"))
-            return false;
-
-        return true;
+        return false; // Will be handled by a unified flash strategy
     }
 
     public IGerberParsedLine Handle(string line, ExporterState state)

@@ -31,7 +31,7 @@ public class GerberApertureCircleStrategy : IGerberLineStrategy
             throw new Exception($"Unable to parse diameter of {line}");
         }
 
-        var result = new CircleAperture() { Diameter = diameter, Index = index };
+        var result = new CircleAperture() { Diameter = diameter, Index = index, Type = GerberParsedLineType.CircleAperture };
 
         state.Apertures.Add(result);
 

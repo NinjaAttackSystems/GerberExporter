@@ -21,7 +21,13 @@ namespace GerberExporter.Gerber.GerberLineStrategy
             {
                 new GerberSelectApertureStrategy(),
                 new GerberApertureCircleStrategy(),
-                new GerberFlashCircleStrategy(),
+                new GerberApertureRectangleStrategy(),
+                new GerberApertureRoundRectStrategy(),
+                new GerberApertureOvalStrategy(),
+                new GerberApertureMacroStrategy(),
+                new GerberMacroLineStrategy(),
+                new GerberApertureMacroInstanceStrategy(),
+                new GerberFlashStrategy(),
                 new GerberLineDrawStrategy(),
             };
         }

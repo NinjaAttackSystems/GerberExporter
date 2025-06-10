@@ -4,7 +4,10 @@ public class GerberSelectApertureStrategy : IGerberLineStrategy
 {
     public bool CanHandleLine(string line)
     {
-        return line.StartsWith("D");
+        // D10* to D999* are aperture selections
+        // D01, D02, D03 are draw/move/flash commands
+        return line.StartsWith("D") && line.EndsWith("*") && 
+               !line.StartsWith("D01") && !line.StartsWith("D02") && !line.StartsWith("D03");
     }
 
     public IGerberParsedLine Handle(string line, ExporterState state)

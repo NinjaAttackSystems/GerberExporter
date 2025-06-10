@@ -1,4 +1,5 @@
-﻿using GerberExporter.Common;
+﻿using GerberExporter.BrokerModels;
+using GerberExporter.Common;
 using GerberExporter.GerberModels;
 
 namespace GerberExporter.Gerber.GerberLineStrategy;
@@ -12,6 +13,11 @@ public class FlashCircleLine : IGerberParsedLine
         Type = GerberParsedLineType.FlashCircle;
         Center = new Vertex(x, y, 0);
         Diameter = aperture.Diameter;
+    }
+
+    public FlashCircleLine()
+    {
+        Type = GerberParsedLineType.FlashCircle;
     }
 
     public Vertex Center { get; set; }

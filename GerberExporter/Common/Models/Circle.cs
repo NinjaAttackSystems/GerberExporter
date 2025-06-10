@@ -23,7 +23,7 @@ public class Circle : IShape
 
     public void ToSvg(double transformX, double transformY, StringBuilder sb)
     {
-        sb.AppendLine($"<circle cx=\"{Center.X - transformX}mm\" cy=\"{Center.Y - transformY}mm\" r=\"{Radius}mm\" stroke=\"black\" stroke-width=\"1mm\" fill=\"black\" />");
+        sb.AppendLine($"<circle cx=\"{Center.X - transformX}mm\" cy=\"{Center.Y - transformY}mm\" r=\"{Radius}mm\" stroke=\"black\" stroke-width=\"0.1mm\" fill=\"black\" />");
     }
 
     public void ToStl(double transformX, double transformY, STLDocument stl, int index)
@@ -38,8 +38,11 @@ public class Circle : IShape
 
             foreach (var vertex in facet.Vertices)
             {
-                var vert = new QuantumConcepts.Formats.StereoLithography.Vertex((float)vertex.X, (float)vertex.Y, (float)vertex.Z);
-               model.Vertices.Add(vert);
+                var vert = new QuantumConcepts.Formats.StereoLithography.Vertex(
+                    (float)(vertex.X - transformX), 
+                    (float)(vertex.Y - transformY), 
+                    (float)vertex.Z);
+                model.Vertices.Add(vert);
             }
 
             stl.Facets.Add(model);
@@ -133,8 +136,8 @@ public class Circle : IShape
     }
     private static Vertex GetCircleVertex(double centerX, double centerY, double z, double radius, int theta)
     {
-        var x = centerX + radius / 2 * Math.Cos(theta * Math.PI / 180);
-        var y = centerY + radius / 2 * Math.Sin(theta * Math.PI / 180);
+        var x = centerX + radius * Math.Cos(theta * Math.PI / 180);
+        var y = centerY + radius * Math.Sin(theta * Math.PI / 180);
         return new Vertex((float)x, (float)y, z, false);
     }
 
